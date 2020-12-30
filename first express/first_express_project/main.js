@@ -6,12 +6,37 @@ var test;
 const port = 3000,
   express = require("express"),
   homeController = require("./controllers/homeController"),
-  layouts = require("express-ejs-layouts"),
   errorController = require("./controllers/errorController"),
+  layouts = require("express-ejs-layouts"),
+  path = require("path"),
   app = express();
 
+var options = {
+  dotfiles: "ignore",
+  etag: false,
+  extensions: ["htm", "html"],
+  index: false,
+  maxAge: "1d",
+  redirect: false,
+  setHeaders: function (res, path, stat) {
+    res.set("x-timestamp", Date.now());
+  },
+};
+
+// Serve Static Assets
+app.use(express.static("../public/html", options));
+
+// app.use("/public", express.static("public/html"));
+
 app.set("view engine", "ejs");
+
 app.use(layouts);
+
+app.use(
+  express.urlencoded({
+    extended: false,
+  })
+);
 
 app.use((req, res, next) => {
   //console.log(req);
@@ -20,12 +45,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
-app.use(
-  express.urlencoded({
-    extended: false,
-  })
-);
 
 app.use(express.json()); // tell express to parse url-encoded data
 
@@ -44,8 +63,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  showMeParts(req);
-  res.send("Home page requested.");
+  console.log(req.body);
+  console.log(req.query);
+  res.send("POST Successful!");
 });
 
 app.post("/contact", (req, res) => {

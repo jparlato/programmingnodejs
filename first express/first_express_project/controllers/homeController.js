@@ -1,15 +1,14 @@
 exports.sendReqParam = (req, res) => {
-    let veg = req.params.vegetable;
-    res.send(`This is the page for ${veg}`);
-}
+  let veg = req.params.vegetable;
+  res.send(`This is the page for ${veg}`);
+};
 
 exports.user_SignUpProcessor = (req, res) => {
-    res.send("you are signing up!");
-}
+  res.send("you are signing up!");
+};
 
 exports.respondWithName = (req, res) => {
-    //let paramsName = req.params.myName;
+  let paramsName = req.params.myName;
 
-    res.render('index', { name: paramsName });
-
-}
+  res.render("index", { name: paramsName });
+};
