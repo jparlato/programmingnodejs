@@ -1,12 +1,12 @@
-const express = require("express");
-const app = express();
-const homeController = require("./controllers/homeController");
-const layouts = require("express-ejs-layouts");
-
-app.use(express.static("public"));
+const express = require("express"),
+  app = express(),
+  homeController = require("./controllers/homeController"),
+  errorController = require("./controllers/errorController"),
+  layouts = require("express-ejs-layouts");
 
 app.set("view engine", "ejs");
 app.use(layouts);
+app.use(express.static("public"));
 
 app.use(
   express.urlencoded({
@@ -24,6 +24,11 @@ app.get("/", (req, res) => {
 app.get("/courses", homeController.showCourses);
 app.get("/contact", homeController.showSignUp);
 app.post("/contact", homeController.postedSignupForm);
+
+// these must be last routes
+
+app.use(errorController.pageNotFoundError);
+app.use(errorController.internalServerError);
 
 app.listen(app.get("port"), () => {
   console.log(`Server running at http://localhost:${app.get("port")}`);
