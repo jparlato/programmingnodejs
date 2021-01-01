@@ -1,0 +1,2 @@
+this file was created by node js
+this txt was appended by node js
